@@ -31,9 +31,9 @@ class Borrower { // define class
         this.borrowedBooks.push(book)
     }
     returnBook(book) { // function to take away book from array of borrowed books
-        let index = this.borrowedBooks.indexOf(book)
-        if (index > -1) {
-        this.borrowedBooks.splice(index,1)
+        let index = this.borrowedBooks.indexOf(book) // find book in array of borrowed books
+        if (index > -1) { // ensure book exists in array
+        this.borrowedBooks.splice(index,1) // start at location of book and get rid of only that one book
         }
         else {
             return `This book is not currently being borrowed.`

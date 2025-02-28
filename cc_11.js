@@ -31,7 +31,13 @@ class Borrower {
         this.borrowedBooks.push(book)
     }
     returnBook(book) {
-        this.borrowedBooks.pop()
+        let index = this.borrowedBooks.indexOf(book)
+        if (index > -1) {
+        this.borrowedBooks.splice(index,1)
+        }
+        else {
+            return `This book is not currently being borrowed.`
+        }
     }
 }
 
@@ -51,10 +57,41 @@ class Library {
     addBook(book) {
         this.books.push(book)
     }
+    addBorrower(borrower) {
+        this.borrowers.push(borrower)
+    }
     listBooks() {
         this.books.forEach(book => console.log(book.getDetails()))
+    }
+// Task 4 - Implementing Book Borrowing
+    lendBook(borrowerId, isbn) {
+        const lendbook = this.books.find(book => book.isbn === isbn)
+        const borrower = this.borrowers.find(borrower => borrower.borrowerId === borrowerId)
+        if (lendbook && lendbook.copies > 0) {
+            lendbook.updateCopies(-1)
+            borrower.borrowBook(lendbook.title)
+        }
+        else {
+            return `Book is not able to be borrowed at this time.`
+        }
+    }
+// Task 5 - Implementing Book Returns
+    returnBook(borrowerId, isbn) {
+        const returnBook = this.books.find(book => book.isbn === isbn)
+        const returner = this.borrowers.find(borrower => borrower.borrowerId === borrowerId)
+        returnBook.updateCopies(1)
+        returner.returnBook(returnBook.title)
     }
 }
 const library = new Library()
 library.addBook(book1)
 library.listBooks()
+
+library.addBorrower(borrower1)
+library.lendBook(201, 123456)
+console.log(book1.getDetails())
+console.log(borrower1.borrowedBooks)
+
+library.returnBook(201, 123456)
+console.log(book1.getDetails())
+console.log(borrower1.borrowedBooks)
